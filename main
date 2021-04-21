@@ -1,192 +1,148 @@
 #include <iostream>
 using namespace std;
-class Transactions
+class Vector
 {
 private:
-    double rs;//razmer summy
-    double kv;//kod valuty
-    double kpokd;//kurs po otnosheniyu k dollaru
-    Transactions ToDollar();
-public:
-    //#
-    //###
-    //###### - _ Constructors _ - #######
-    //###
-    //#
-    Transactions(double, double, double);
-    Transactions(double, double);
-    Transactions(double);
-    Transactions();
-    Transactions(Transactions&);
-    //#
-    //###
-    //###### - _ Main methods _ - #######
-    //###
-    //#
+    int x;
+    int y;
+    int z;
+ public:
+    Vector(int, int, int);
+    Vector();
+    Vector(Vector&);
     void Print() const;
     void Input();
-    Transactions Add(Transactions);
-    bool isEqual(Transactions) const;
-    //#
-    //###
-    //###### - _ SetOrGetParametrs _ - #######
-    //###
-    //#
-    void setrs(double);
-    void setkv(double);
-    void setkpokd(double);
-    double getrs();
-    double getkv();
-    double getkpokd();
-    
+    Vector Plus(Vector);
+    Vector Minus(Vector);
+    Vector Multiply_const(const int);
+    double Modul();
+    double Skul_multiply(Vector);
+    bool Equal(Vector) const;
+    int getX();
+    int getY();
+    int getZ();
+    void setX(int);
+    void setY(int);
+    void setZ(int);
+    Vector(int);
 };
-//###################################
-
-//###### - _ Constructors _ - #######
-
-//###################################
-Transactions::Transactions(double d1, double d2, double d3)
+Vector::Vector(int p1)
 {
-    rs = d1;
-    kv = d2;
-    kpokd = d3;
+    x = p1;
+    y = p1;
+    z = p1;
 }
-Transactions::Transactions(double d1, double d2)
+int Vector::getX()
 {
-    rs = 0;
-    kv = d1;
-    kpokd = d2;
+    return x;
 }
-Transactions::Transactions(double d1)
+int Vector::getY()
 {
-    rs = d1;
-    kv = 980;
-    kpokd = 0.036;
+    return y;
 }
-
-Transactions::Transactions(){
-
-    rs = 0;
-    kv = 980;
-    kpokd = 0.036;
-}
-Transactions::Transactions(Transactions& d)
+int Vector::getZ()
 {
-    rs = d.rs;
-    kv = d.kv;
-    kpokd = d.kpokd;
+    return z;
 }
-
-//###################################
-
-//###### - _ Main methods _ - #######
-
-//###################################
-
-void Transactions::Input()
+void Vector::setX(int x)
 {
-    cin>>rs>>kv>>kpokd;
-    if (kpokd<0)abort();
+    this->x = x;
 }
-
-
-void Transactions::Print() const
+void Vector::setY(int y)
 {
-    cout << rs << "\t" << kv << "\t" << kpokd << endl;
+    this->y = y;
 }
-
-
-Transactions Transactions::Add(Transactions d2)
+void Vector::setZ(int z)
 {
-    Transactions d(rs, kv, kpokd);
-    if(kv==d2.kv || kpokd==d2.kpokd)
-    {
-        d.rs += d2.rs;
-        return d;
-    }
-    d.ToDollar();
-    d2.ToDollar();
-    d.rs += d2.rs;
-    return d;
+    this->z = z;
 }
-
-
-Transactions Transactions::ToDollar()
+Vector::Vector(int p1, int p2, int p3)
 {
-    Transactions d;
-    d.kv=840;
-    d.rs = rs * kpokd;
-    d.kpokd = 1;
-    return d;
+    x = p1;
+    y = p2;
+    z = p3;
 }
-
-
-bool Transactions::isEqual(Transactions d1) const
+Vector::Vector()
 {
-    if(kv==d1.kv || kpokd==d1.kpokd)
-    {
-        if (rs == d1.rs)return true;
+    x = 0;
+    y = 0;
+    z = 0;
+}
+Vector::Vector(Vector& v)
+{
+    x = v.x;
+    y = v.y;
+    z = v.z;
+}
+void Vector::Print() const
+{
+    cout << "(" << x << "," << y << "," << z << ")" << endl;
+}
+void Vector::Input()
+{
+    cin >> x >> y >> z;
+}
+Vector Vector::Plus(Vector v2)
+{
+    Vector v;
+    v.x = x + v2.x;
+    v.y = y + v2.y;
+    v.z = z + v2.z;
+    return v;
+}
+Vector Vector::Minus(Vector v2)
+{
+    Vector v;
+    v.x = x - v2.x;
+    v.y = y - v2.y;
+    v.z = z - v2.z;
+    return v;
+}
+Vector Vector::Multiply_const(const int a)
+{
+    Vector v;
+    v.x = x * a;
+    v.y = y * a;
+    v.z = z * a;
+    return v;
+}
+double Vector::Modul()
+{
+    Vector v;
+    int modul = 0;
+    modul = sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2));
+    return modul;
+}
+double Vector::Skul_multiply(Vector v2)
+{
+    Vector v;
+    int skul_multiply = v.x * v2.x + v.y * v2.y + v.z * v2.z;
+    return skul_multiply;
+}
+bool Vector::Equal(Vector v2) const
+{
+    if (x == v2.x && y == v2.y && z == v2.z)
+        return true;
+    else
         return false;
-    }
-    Transactions d(rs, kv, kpokd);
-    d.ToDollar();
-    d1.ToDollar();
-    if (d.rs == d1.rs)return true;
-    return false;
-};
-
-
-//########################################
-
-//###### - _ SetOrGetParametrs _ - #######
-
-//########################################
-
-
-//SetOrGet kpokd
-
-void Transactions::setkpokd(double kpokd)
-{
-this->kpokd = kpokd;
 }
-double Transactions::getkpokd()
+int main()
 {
-return kpokd;
-}
-
-//SetOrGet kv
-
-void Transactions::setkv(double kv)
-{
-this->kv = kv;
-}
-double Transactions::getkv()
-{
-return kv;
-}
-
-//SetOrGet rs
-
-void Transactions::setrs(double rs)
-{
-this->rs = rs;
-}
-double Transactions::getrs()
-{
-return rs;
-}
-
-
-int main(){
-    Transactions d1, d2(2), d3, d4(d1), d5(1, 7), d6(11, 312, 57);
-    d1.Print();//print autofill parametrs
-    d2.Print();//print 1 inputed inside to code and 2 autofill parametrs
-    d5.Print();//print 2 inputed inside to code and 1 autofill parametrs
-    d6.Print();//print 3 inputed inside to code parametrs
-    d3.Input();//input parametrs
-    d3.Print();//print inputed parametrs
-    d4.Print();//print cloned parametrs
-    d3=d1.Add(d2);//d3 = d2 added to d1
-    d3.Print();//print summary
-    cout<<d1.isEqual(d3);//if d1>d3 print(1) else => print(0)
+    Vector v1(1, 2, 3), v2, v3(2, 3, 6), v4(v1), v5;
+    v1.Print();
+    v3.Print();
+    v4.Print();
+    v2.Input();
+    v2.Print();
+    v1.Plus(v2);
+    v1.Print();
+    v2 = v3.Minus(v4);
+    v2.Print();
+    v5 = v4.Multiply_const(7);
+    v5.Print();
+    v1.Modul();
+    v1.Print();
+    v3.Skul_multiply(v3);
+    v3.Print();
+    cout << v1.Equal(v5);
 }
