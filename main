@@ -3,146 +3,135 @@ using namespace std;
 class Vector
 {
 private:
-    int x;
-    int y;
-    int z;
- public:
-    Vector(int, int, int);
-    Vector();
-    Vector(Vector&);
-    void Print() const;
-    void Input();
-    Vector Plus(Vector);
-    Vector Minus(Vector);
-    Vector Multiply_const(const int);
-    double Modul();
-    double Skul_multiply(Vector);
-    bool Equal(Vector) const;
-    int getX();
-    int getY();
-    int getZ();
-    void setX(int);
-    void setY(int);
-    void setZ(int);
-    Vector(int);
+    float *body;
+    size_t dim;
+public:
+    Vector() {
+        body = new float[2];
+        dim = 2;
+    }
+    Vector(size_t n) {
+        body = new float[n];
+        dim = n;
+    };
+    Vector(Vector& v) {
+        body = v.body;
+        dim = v.dim;
+    }
+    Vector(Vector&& v) {
+        body = v.body;
+        dim = v.dim;
+    }
+    ~Vector() {
+        delete[] body;
+    }
+    float mod() {
+        float s = 0.0;
+        for (size_t i = 0; i < dim; i++)
+            s += body[i] * body[i];
+        return sqrtf(s);
+    }
+    Vector operator=(Vector& v) {
+        body = v.body;
+        dim = v.dim;
+        return *this;
+    }
+    Vector operator=(Vector&& v) {
+        body = v.body;
+        dim = v.dim;
+        return *this;
+    }
+    float operator[](int i) {
+        return body[i];
+    }
+    Vector operator+(Vector v) {
+        if (dim == v.dim) {
+            Vector res(dim);
+            for (size_t i = 0; i < dim; i++)
+                res.body[i] = body[i] + v[i];
+            return res;
+        }
+        abort();
+    }
+    Vector operator-(Vector v) {
+        if (dim == v.dim) {
+            Vector res(dim);
+            for (size_t i = 0; i < dim; i++)
+                res.body[i] = body[i] - v[i];
+            return res;
+        }
+        abort();
+    }
+    Vector operator*(float r) {
+        Vector res(dim);
+        for (size_t i = 0; i < dim; i++)
+            res.body[i] = r * body[i];
+        return res;
+    }
+    float operator*(Vector v) {
+        if (dim == v.dim) {
+            float s = 0.0;
+            for (size_t i = 0; i < dim; i++)
+                s += body[i] * v.body[i];
+            return s;
+        }
+        abort();
+    }
+    bool operator==(Vector v) {
+        if (dim == v.dim) {
+            bool res = true;
+            for (size_t i = 0; i < dim; i++)
+                res = res && (body[i] == v.body[i]);
+            return res;
+        }
+        else {
+            return false;
+        }
+    }
+    bool operator!=(Vector v) {
+        return !((*this) == v);
+    }
+    bool operator>(Vector v) {
+        return mod() > v.mod();
+    }
+    bool operator<(Vector v) {
+        return mod() < v.mod();
+    }
+    void operator>>(FILE* f) {
+        fprintf(f, "(");
+        for (size_t i = 0; i < dim; i++)
+            fprintf(f, "%f ", body[i]);
+        fprintf(f, ")\n");
+    }
+    void operator<<(FILE* f) {
+        for (size_t i = 0; i < dim; i++)
+            fscanf(f, "%f", &body[i]);
+    }
 };
-Vector::Vector(int p1)
-{
-    x = p1;
-    y = p1;
-    z = p1;
-}
-int Vector::getX()
-{
-    return x;
-}
-int Vector::getY()
-{
-    return y;
-}
-int Vector::getZ()
-{
-    return z;
-}
-void Vector::setX(int x)
-{
-    this->x = x;
-}
-void Vector::setY(int y)
-{
-    this->y = y;
-}
-void Vector::setZ(int z)
-{
-    this->z = z;
-}
-Vector::Vector(int p1, int p2, int p3)
-{
-    x = p1;
-    y = p2;
-    z = p3;
-}
-Vector::Vector()
-{
-    x = 0;
-    y = 0;
-    z = 0;
-}
-Vector::Vector(Vector& v)
-{
-    x = v.x;
-    y = v.y;
-    z = v.z;
-}
-void Vector::Print() const
-{
-    cout << "(" << x << "," << y << "," << z << ")" << endl;
-}
-void Vector::Input()
-{
-    cin >> x >> y >> z;
-}
-Vector Vector::Plus(Vector v2)
-{
-    Vector v;
-    v.x = x + v2.x;
-    v.y = y + v2.y;
-    v.z = z + v2.z;
-    return v;
-}
-Vector Vector::Minus(Vector v2)
-{
-    Vector v;
-    v.x = x - v2.x;
-    v.y = y - v2.y;
-    v.z = z - v2.z;
-    return v;
-}
-Vector Vector::Multiply_const(const int a)
-{
-    Vector v;
-    v.x = x * a;
-    v.y = y * a;
-    v.z = z * a;
-    return v;
-}
-double Vector::Modul()
-{
-    Vector v;
-    int modul = 0;
-    modul = sqrt(pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2));
-    return modul;
-}
-double Vector::Skul_multiply(Vector v2)
-{
-    Vector v;
-    int skul_multiply = v.x * v2.x + v.y * v2.y + v.z * v2.z;
-    return skul_multiply;
-}
-bool Vector::Equal(Vector v2) const
-{
-    if (x == v2.x && y == v2.y && z == v2.z)
-        return true;
-    else
-        return false;
-}
 int main()
 {
-    Vector v1(1, 2, 3), v2, v3(2, 3, 6), v4(v1), v5;
-    v1.Print();
-    v3.Print();
-    v4.Print();
-    v2.Input();
-    v2.Print();
-    v1.Plus(v2);
-    v1.Print();
-    v2 = v3.Minus(v4);
-    v2.Print();
-    v5 = v4.Multiply_const(7);
-    v5.Print();
-    v1.Modul();
-    v1.Print();
-    v3.Skul_multiply(v3);
-    v3.Print();
-    cout << v1.Equal(v5);
+    Vector v0;
+    Vector v1(4);
+    Vector v2(4);
+    v0 << stdin;
+    v1 << stdin;
+    v2 << stdin;
+    v0 >> stdout;
+    v1 >> stdout;
+    v2 >> stdout;
+    Vector v3 = v1 + v2;
+    Vector v4 = v1 - v2;
+    Vector v5 = v4 * (2.0);
+    Vector v6(v5);
+    v3 >> stdout;
+    v4 >> stdout;
+    v5 >> stdout;
+    cout << v6[2] << endl;
+    cout << v1 * v2 << endl;
+    cout << (v1 == v1) << endl;
+    cout << (v1 != v2) << endl;
+    cout << v1.mod() << endl;
+    cout << v2.mod() << endl;
+    cout << (v1 > v2) << endl;
+    cout << (v2 < v1) << endl;
 }
