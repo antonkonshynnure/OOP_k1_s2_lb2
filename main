@@ -130,7 +130,7 @@ int main()
     v3 >> stdout;
     v4 >> stdout;
     v5 >> stdout;
-    float arr[4] = { 1.1, 2.2, 3.4, 6.88 };
+    float arr[4] = { 1.1, 2.2, 3.4, 6.88};
     Vector v7(arr, 4);
     cout << v7[2] << endl;
     cout << v6[2] << endl;
