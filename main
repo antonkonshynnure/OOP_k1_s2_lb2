@@ -1,10 +1,11 @@
-#include <math.h>
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <math.h>
 using namespace std;
 class Vector
 {
 private:
-    float *body;
+    float* body;
     size_t dim;
 public:
     Vector() {
@@ -23,10 +24,9 @@ public:
         body = v.body;
         dim = v.dim;
     }
-    ~Vector() {
-        delete[] body;
-    }
-    Vector(float* arr, size_t dim): Vector(dim) {
+    Vector(float* arr, size_t d) {
+        body = new float[d];
+        dim = d;
         for (size_t i = 0; i < dim; i++)
             body[i] = arr[i];
     }
@@ -131,6 +131,9 @@ int main()
     v3 >> stdout;
     v4 >> stdout;
     v5 >> stdout;
+    float arr[4] = { 1.1, 2.2, 3.4, 6.88 };
+    Vector v7(arr, 4);
+    cout << v7[2] << endl;
     cout << v6[2] << endl;
     cout << v1 * v2 << endl;
     cout << (v1 == v1) << endl;
