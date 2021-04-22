@@ -1,3 +1,4 @@
+#include <math.h>
 #include <iostream>
 using namespace std;
 class Vector
@@ -24,6 +25,10 @@ public:
     }
     ~Vector() {
         delete[] body;
+    }
+    Vector(float* arr, size_t dim): Vector(dim) {
+        for (size_t i = 0; i < dim; i++)
+            body[i] = arr[i];
     }
     float mod() {
         float s = 0.0;
